@@ -16,11 +16,28 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
   %Potem za vsako pridobljeno presecisce izvede Newtonovo metodo, kjer prej pridobljene koordinate uporabi za prvotno ugibanje.
 
 
-  numP = (intp(2) - intp(1)) / h;
-  intVectP = linspace(intp(1), intp(2)
+  %ustvarjanje delitve na intervalu
+
+  numP = ceil((intp(2) - intp(1)) / h)+1;
+  %ceil, ker bolje vec, kot pa premalo. +1 pa, ker moramo upostevati zacetek oziroma konec kot dodatno delilno tocko.
+  intVectP = linspace(intp(1), intp(2), numP);
 
   %unit test
-  % funcP
+  % intp = [1; 10.5];
+  % h = 1;
+
+  numQ = ceil((intq(2) - intq(1)) / h)+1;
+  intVectQ = linspace(intq(1), intq(2), numQ);
+
+
+  linP = p(intVectP)
+  linQ = q(intVectQ)
+  %unit test
+  % presekKrivulj(@simetralaLihih, @dotSimetralaLihih, [-1, 5], @kvadrat, @dotKvadrat, [-1, 5], 0.1);
+
+
+
+
 
 
 
