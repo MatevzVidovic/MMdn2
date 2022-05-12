@@ -1,8 +1,8 @@
 
 
 function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
-  %funkcija presek krivulj vzame vektorski funkciji z dvema komponentama p in q,
-  %ter vektorski funkciji z dvema komponentama pdot in qdot, ki sta njuna odvoda.
+  %funkcija presekKrivulj vzame vektorski funkciji p in q, ki slikata iz R v R^2
+  %ter vektorski funkciji pdot in qdot, ki sta njuna odvoda.
   %Vzame tudi dvomestna vektorja intp ter intq, katerih prva komponenta je začetek intervala,
   %na katerem funkcija tece, druga komponenta pa konec intervala.
   % Prejme tudi stevilo h, ki predstavlja razmike v zacetni linearni aproksimaciji krivulj.
@@ -14,6 +14,9 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
   %In potem za vsakega od dobljenih odsekov funkcije p preveri, ce se seka s katerimkoli od odsekov funkcije q.
   %Kjer se, pridobimo koordinate presecisca teh linearnih aproksimacij.
   %Potem za vsako pridobljeno presecisce izvede Newtonovo metodo, kjer prej pridobljene koordinate uporabi za prvotno ugibanje.
+
+
+
 
 
   %ustvarjanje delitve na intervalu
@@ -28,6 +31,7 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
 
   numQ = ceil((intq(2) - intq(1)) / h)+1;
   intVectQ = linspace(intq(1), intq(2), numQ);
+
 
 
   %to bosta matriki z dvema vrsticama - prva za x in druga za y
@@ -89,6 +93,19 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
     endfor
   endfor
 
+  Q = linPres(1:2, : );
+
+  %izris grafa
+  figure('Name','Linearna aproksimacija');
+  plot(linP(1, :), linP(2, : ))
+  hold on
+  plot(linQ(1, : ), linQ(2, : ))
+  plot(linPres(1, :), linPres(2, : ), "or")
+  axis equal
+
+
+
+
 
 
   %delni testi
@@ -99,18 +116,11 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
   % presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.01);
   % presekKrivulj(@kub, @dotKub, [0.5, 1.5], @sinus, @dotSinus, [0.5, 1.5], 0.01);
   % presekKrivulj(@cosinus, @dotCosinus, [-2*pi,2*pi], @sinus, @dotSinus, [-2*pi, 2*pi], 0.3);
-  %presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.1);
-
-  %linPres
-  figure('Name','Linearna aproksimacija');
-  plot(linP(1, :), linP(2, : ))
-  hold on
-  plot(linQ(1, : ), linQ(2, : ))
-  plot(linPres(1, :), linPres(2, : ), "or")
-  axis equal
+  % presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.1);
 
 
-  Q = linPres(1:2, : );
+
+
 
 
 
@@ -185,6 +195,14 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
     P(:, columns(P)+1) = p(izboljsanLinPres(1, i));
   endfor
 
+
+
+  %izris grafa
+  % fplot je bil tezaven za izris krivulj, saj je bolj namenjen izrisu funkcij R -> R in R^2 - R.
+  % Stalno je zelel prikazati tudi interval, od koder se slika, kar je izpadlo kot dodaten izris simetrale lihih kvadrantov.
+  % Iz tega razloga sem uporabil kar plot ze prej napisane linearne aproksimacije, saj naredi prakticno isto kot fplot,
+  % le da to naredi bolje, saj ga ne mede dejstvo, da je funkcija vektorska.
+
   figure('Name','Newtonova metoda');
   %fplot(p, intp);
   plot(linP(1, :), linP(2, : ))
@@ -193,6 +211,11 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
   plot(linQ(1, : ), linQ(2, : ))
   plot(P(1, :), P(2, : ), "or")
   axis equal
+
+
+
+
+
 
 
 
@@ -246,15 +269,6 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
 %! F = @(X) (X.^3 - sin(X));
 %! [P, Q] = presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.02);
 %! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10);
-
-
-
-
-
-
-
-
-
 
 
 
