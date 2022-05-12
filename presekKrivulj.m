@@ -102,7 +102,7 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
   %presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.1);
 
   %linPres
-  figure('Name','Linearna aproksimacija')
+  figure('Name','Linearna aproksimacija');
   plot(linP(1, :), linP(2, : ))
   hold on
   plot(linQ(1, : ), linQ(2, : ))
@@ -185,7 +185,7 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
     P(:, columns(P)+1) = p(izboljsanLinPres(1, i));
   endfor
 
-  figure('Name','Newtonova metoda')
+  figure('Name','Newtonova metoda');
   %fplot(p, intp);
   plot(linP(1, :), linP(2, : ))
   hold on
@@ -232,20 +232,20 @@ function [P, Q] = presekKrivulj (p, pdot, intp, q, qdot, intq, h)
 
 
 
-  %!test
-  %! F = @(X) (cos(X) - sin(X));
-  %! [P, Q] = presekKrivulj(@cosinus, @dotCosinus, [-2*pi, 2*pi], @sinus, @dotSinus, [-2*pi, 2*pi], 0.1);
-  %! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10)
+%!test
+%! F = @(X) (cos(X) - sin(X));
+%! [P, Q] = presekKrivulj(@cosinus, @dotCosinus, [-2*pi, 2*pi], @sinus, @dotSinus, [-2*pi, 2*pi], 0.1);
+%! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10);
 
-  %!test
-  %! F = @(X) (X.^3 - cos(X));
-  %! [P, Q] = presekKrivulj(@cosinus, @dotCosinus, [-1, 1.5], @kub, @dotKub, [-1, 1.5], 0.1);
-  %! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10)
+%!test
+%! F = @(X) (X.^3 - cos(X));
+%! [P, Q] = presekKrivulj(@cosinus, @dotCosinus, [-1, 1.5], @kub, @dotKub, [-1, 1.5], 0.1);
+%! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10);
 
-  %!test
-  %! F = @(X) (X.^3 - sin(X));
-  %! [P, Q] = presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.01);
-  %! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10)
+%!test
+%! F = @(X) (X.^3 - sin(X));
+%! [P, Q] = presekKrivulj(@kub, @dotKub, [-1, 2], @sinus, @dotSinus, [-1, 2], 0.02);
+%! assert(F(P(1, : )), zeros(1, columns(P)) , 1e-10);
 
 
 
